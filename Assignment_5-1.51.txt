@@ -1,0 +1,44 @@
+; Assignment #5, Q2 - Prof. Al Juboori CISP 310 - Fall 2016 - FLC
+; Author:  Steven Villano - SID #W0570843
+; Date:    11/2016
+; Assignment : Using the windows32 or windows64 framework, 
+;              write a program that will find the sum of 
+;              even numbers from 20 to 0, then display the
+;              result with appropriate message to the user.
+ 
+.586
+.MODEL FLAT
+ 
+INCLUDE io.h            ; header file for input/output
+ 
+.STACK 4096
+ 
+.DATA
+count          DWORD 1 
+resultLbl      BYTE  "The sum is", 0
+sum            BYTE    11 DUP (?), 0
+ 
+.CODE
+_MainProc PROC        
+               mov     ecx, 0                ; clear ECX
+               mov     eax, 0                ; clear EAX
+     whileCnt: mov     eax, count
+               cmp     eax, 20               ; compare count and 20
+               jg      endWhile              ; jump to end of program if count > 20
+               mov     ebx, 2                ; divisor
+               cdq
+               idiv    ebx                   ; divide count by 2
+               cmp     edx, 0                ; compare if remainder is 0
+               jz      addCnt                ; if remainder is 0, jump to addCnt
+               inc     count                 ; increment count
+               jmp     whileCnt              ; jump back to beginning of loop
+     addCnt:   add     ecx, count            ; add count
+               inc     count                 ; increment count
+               jmp     whileCnt              ; jump back to beginning of loop
+     endWhile: dtoa    sum, ecx              ; convert to ASCII characters
+               output  resultLbl, sum        ; output label and sum
+ 
+               mov     eax, 0                ; exit with return code 0
+               ret
+_MainProc ENDP
+END                                          ; end of source code

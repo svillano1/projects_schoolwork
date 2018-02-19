@@ -1,0 +1,49 @@
+/************************************************************************************************
+* File: asgn14.c                                                                                *
+* Course: CISP 360 Folsom Lake College                                                          *
+* Author: Steven Villano                                                                        *
+* Date: 24/11/14                                                                                *
+*                                                                                               *
+* Assignment description:                                                                       *
+*       Write a program that defines and uses macro MINIMUM3 to determine the smallest of       *
+*       three numeric values. Macro MINIMUM3 should use macro MINIMUM2 defined in exercise      *
+*       13.6 to determine the smallest number. Input the values from the keyboard.              *
+*                                                                                               *
+************************************************************************************************/
+
+
+#include <stdio.h>      // include standard i/o library
+#define MINIMUM2(x,y) ((x) < (y) ? -1 : 0 )     // define MINIMUM2
+#define MINIMUM3(z,a) ((z) < (a) ? -1 : 0 )     // define MINIMUM3
+
+
+int main( void )        // begin function main
+{
+        // declaration and initialization of variables
+        int a = 0;
+        int b = 0;
+        int c = 0;
+        int temp = 0;
+        int result = 0;
+        int result2 = 0;
+
+        // prompt user for input and read into variables
+        printf( "%s", "Enter three different numbers, separated by spaces: ");
+        scanf( "%d%d%d", &a, &b, &c );
+
+        // find first result using MINIMUM2, and store result in variable temp
+        if ( ( result = MINIMUM2( a, b ) ) < 0 ) {
+                temp = a;
+        }  // end if
+        else {
+                temp = b;
+        }  // end else
+
+        // find second result using MINIMUM3, and print result
+        if ( ( result2 = MINIMUM3( c, temp ) ) < 0 ) {
+                printf( "%d is the smallest number\n", c );
+        }  // end if
+        else {
+                printf( "%d is the smallest number\n", temp );
+        }  // end else
+}  // end main

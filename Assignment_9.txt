@@ -1,0 +1,235 @@
+ /****************************************************************************************
+* File: asgn9.c                                                                         *
+* Course: CISP 360 - Folsom Lake College Fall 2014                                      *
+* Author: Steven Villano                                                                *
+* Date: 26/10/2014                                                                      *
+*                                                                                       *
+* Assignment Description:                                                               *
+*       1. Exercises 8.36, 8.37, and 8.38 on page 352                                   *
+*                                                                                       *
+*       2. Present the user a menu with the following options:                          *
+*               1 - Printing dates in various formats                                   *
+*               2 - Check protection and writing the word equivalent of a check amount  *
+*               3 - Exit                                                                *
+*                                                                                       *
+*       3. When the user selects the option Printing dates in various formats, follow   *
+*          the instructions in exercise 8.36.                                           *
+*                                                                                       *
+*       4. When the user selects the option Check protection and writing the word       *
+*          equivalent of a check amount, combine exercise 8.37 and 8.38. For example,   *
+*          if the user inputs the check amount of 1230.60, your program shoud output    *
+*          1) **1230.60 and 2) ONE THOUSAND TWO HUNDRED THIRTY and 60/100               *
+*                                                                                       *
+*       5. Use function pointers to create the menu-driven system. Your program must    *
+*          have a minimum of two functions (the two menu options minus Exit). Also,     *
+*          exit the program only when the user selects option 3.                        *
+****************************************************************************************/
+
+#include <stdio.h>
+#include <string.h>
+
+// function prototypes
+void date_convert();
+void check();
+
+int main( void )
+{
+        // initialize array of 2 pointers to functions
+        void (*f[ 2 ])() = { date_convert, check };
+
+        size_t choice;  // varible to hold user's choice
+
+        system( "clear" );   // clear the screen
+        puts( "\n\n" );
+        puts( "Which Program do you wish to run?\n" );
+
+        //menu
+        puts( "0 - Printing Dates in Various Formats\r" );
+        puts( "1 - Check Protection and Writing the Word Equivalent of a Check Amount\r" );
+        puts( "2 - Exit\n" );
+        printf( "%s", "Enter you selection: " );
+        scanf( "%d", &choice );
+
+        // process user's choice
+        while ( choice >= 1 && choice < 2 ) {
+
+                system( "clear" );
+                puts( "\n\n" );
+                //invoke function at location choice in array f
+                (*f[ choice ])();
+
+                // pause and wait for user to press enter to continue
+                puts( "\n" );
+                getchar();
+                printf( "Press ENTER to Continue...." );
+                getchar();
+                system ( "clear" );
+		puts( "\n\n" );
+
+                // loop menu
+                puts( "Which Program do you wish to run?\n" );
+                puts( "0 - Printing Dates in Various Formats\r" );
+                puts( "1 - Check Protection and Writing the Word Equivalent of a Check Amount\r" );
+                puts( "2 - Exit\n" );
+                printf( "%s", "Enter your selection: " );
+                scanf( "%d", &choice );
+        }
+        puts( "Program Exited.\n\n" );
+}
+
+void date_convert()
+{
+        // initialize constant array of Months
+        const char months[13][10] = { "", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
+
+        // initialize date
+        char date[ 11 ];
+
+        // initialize pointer
+        char *date_ptr;
+
+        // initialize variables to hold date
+        unsigned long month;
+        unsigned long day;
+        unsigned long year;
+
+        // prompt user for input
+        printf( "Enter date to convert in \"mm/dd/yyyy\" format: " );
+        scanf( "%s", date );  //read input
+
+        // tokenize date string and convert tokens to unsigned long int
+        date_ptr = strtok( date, "/" );
+        month = strtoul( date, &date_ptr, 0 );
+
+        date_ptr = strtok( NULL, "/" );
+        day = strtoul( date_ptr, NULL, 0 );
+
+        date_ptr = strtok( NULL, "/" );
+        year = strtoul( date_ptr, NULL, 0 );
+
+        puts( "\n" );
+        printf( "The converted date is: " );
+
+        //print result using const array months
+        printf( "%s %lu, %lu", months[ month ], day, year );
+
+        puts( "\n" );
+}
+
+void check()
+{
+        // initialize constant char arrays
+        const char *ones[ 20 ] = { "ZERO", "ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT", "NINE", "TEN", "ELEVEN", "TWELVE", "THIRTEEN", "FOURTEEN", "FIFTEEN", "SIXTEEN", "SEVENTEEN", "EIGHTEEN", "NINETEEN" };
+        const char *tens[ 10 ] = { "ZERO", "TEN", "TWENTY", "THIRTY", "FORTY", "FIFTY", "SIXTY", "SEVENTY", "EIGHTY", "NINETY" };
+        const char *hundred_thousands[ 2 ] = { "HUNDRED", "THOUSAND" };
+
+        // initialize variables for written check
+        unsigned long int change = 0;
+        unsigned long int ones_pl = 0;
+        unsigned long int tens_pl = 0;
+        unsigned long int hundreds_pl = 0;
+	 unsigned long int amt = 0;
+
+        // initialize arrays
+        char amount[ 10 ];
+        char amount2[ 10 ];
+
+        // initialize pointer
+        char *amt_ptr;
+
+        // initialize length counter
+        int length = 0;
+
+        // variable for counter
+        int i;
+
+        // prompt user for input and read input
+        printf( "Please enter the check amount: ");
+        scanf( "%s", amount );
+
+        strcpy( amount2, amount );
+
+        // increment subscript to match length of input
+        while ( amount[ length ] != '\0' ) {
+                length++;
+        }
+
+        // move chars to end of array
+        for ( i = 0; i < length; i++ ) {
+                amount[ 8 - i ] = amount[ length - 1 - i ];
+        }
+
+        // place asterisks in front of array
+        for ( i = 0; i < 9 - length; i++ ) {
+                amount[i] = '*';
+        }
+
+        // null character at end of array
+        amount[ 9 ] = '\0';
+
+        // print check-protected amount and written words
+        printf( "The check amount is: %s\n", amount );
+        printf( "The amount written out is: ");
+
+        // tokenize string to separate dollars and change
+        amt_ptr = strtok( amount2, "." );
+        amt_ptr = strtok( NULL, ".");
+
+        // convert to unsigned long int
+        change = strtoul( amt_ptr, NULL, 0 );
+        amt = strtoul( amount2, &amt_ptr, 0 );
+
+        // separate ones/tens place in whole number
+        ones_pl = amt % 100;
+
+        if ( ones_pl > 19 ) {
+                ones_pl = ones_pl % 10;
+                amt = amt / 10;
+                tens_pl = amt % 10;
+                amt = amt / 10;
+        }
+        else {
+                amt = amt / 100;
+	 }
+
+        // separate out hundreds unit place
+        if ( amt != 0 ) {
+                hundreds_pl = amt % 10;
+                amt = amt / 10;
+        }
+
+        // separate out thousands place
+        if ( amt != 0 ) {
+                thousands_pl = amt % 100;
+
+                if ( thousands_pl > 19 ) {
+                        thousands_pl = thousands_pl % 10;
+                        amt = amt / 10;
+                        ten_thousands_pl = amt % 10;
+                }
+        }
+
+        // print written value of check, associating each unit with appropriate array
+        if ( ten_thousands_pl != 0 ) {
+                printf( "%s %s %s %s %s %s %s & %lu/100\n", tens[ ten_thousands_pl ], ones[ thousands_pl ], hundred_thousands[ 1 ], ones[ hundreds_pl ],
+hundred_thousands[ 0 ], tens[ tens_pl ], ones[ ones_pl ], change );
+        }
+        else if ( thousands_pl != 0 ) {
+                printf( "%s %s %s %s %s %s & %lu/100\n", ones[ thousands_pl ], hundred_thousands[ 1 ], ones[ hundreds_pl ], hundred_thousands[ 0 ], tens[ tens_pl ],
+ones[ ones_pl ], change );
+        }
+        else if ( hundreds_pl != 0 ) {
+                printf( "%s %s %s %s & %lu/100\n", ones[ hundreds_pl ], hundred_thousands[ 0 ], tens[ tens_pl ], ones[ ones_pl ], change );
+        }
+        else if ( tens_pl != 0 ) {
+                printf( "%s %s & %lu/100\n", tens[ tens_pl ], ones[ ones_pl ], change );
+        }
+        else if ( ones_pl != 0 ) {
+                printf( "%s & %lu/100\n", ones[ ones_pl ], change );
+        }
+        else {
+                printf( "%lu/100\n", change );
+        }
+
+}
+

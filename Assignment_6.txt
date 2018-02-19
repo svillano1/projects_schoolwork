@@ -1,0 +1,70 @@
+/****************************************************************
+* File: asgn6.c                                                 *
+* Course: CISP360 Folsom Lake College Fall 2014                 *
+* Author: Steven Villano                                        *
+* Date: 05/10/14                                                *
+*                                                               *
+* Assignment Description:                                       *
+*       Write a nonrecursive function that calculates the nth   *
+*       Fibonacci number. Use unsigned int for the function's   *
+*       parameter and unsigned long long int for its return.    *
+*       Determine the largest Fibonacci number tht can be       *
+*       printed on your system.                                 *
+* Modifications:                                                *
+*       a) Prompt the use for an integer n that calculates the  *
+*          nth fibonacci number from main().                    *
+*       b) Pass the input value to the function fibonacci(n)    *
+*          that returns the value. Display the value to the     *
+*          console                                              *
+*       c) Have your program calculate the value of the largest *
+*          Fibonacci number.                                    *
+****************************************************************/
+
+#include <stdio.h>
+
+long long unsigned int fibonacci( unsigned int n );  //function prototype
+
+//function main begins program execution
+int main ( void )
+{
+        long long unsigned int result;          //fibonacci value
+        unsigned int number;                    //number input by user
+        long long unsigned int num3 = 0;        //num3 for largest fibonacci number
+        long long unsigned int num4 = 1;        //num4 for largest fibonacci number
+        long long unsigned int sum2 = 0;        //sum2 for largest fibonacci number
+
+        //obtain input from user
+        printf ( "%s", "Which Fibonacci number do you want? " );
+        scanf ( "%u", &number );
+
+        //calculate fibonacci value for number input by user
+        result = fibonacci( number - 1 );
+
+        //calculate largest Fibonacci number for system
+        while ( num3 <= num4 ) {
+                sum2 = num3 + num4;
+                num3 = num4;
+                num4 = sum2;
+        }
+
+        //display result
+        printf ( "The %uth Fibonacci number is %llu\n", number, result );
+        printf ( "The largest Fibonacci number that can be calculated on this system is %llu\n", sum2 );
+} //end main
+
+//Iterative definition of function fibonacci
+unsigned long long int fibonacci( unsigned int n )
+{
+        unsigned int num1 = 0;
+        unsigned int num2 = 1;
+        unsigned long long int sum = 0;
+        int i;
+
+        for ( i = 1 ; i < n ; i++ ) {
+                sum = num1 + num2;
+                num1 = num2;
+                num2 = sum;
+        }
+        return sum;
+
+} //end function fibonacci

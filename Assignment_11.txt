@@ -1,0 +1,78 @@
+/****************************************************************************************
+* File: asgn11.c                                                                        *
+* Course: CISP360 Folsom Lake College Fall 2014                                         *
+* Author: Steven Villano                                                                *
+* Date: 14/11/14                                                                        *
+*                                                                                       *
+* Assignment Description:                                                               *
+*       Write a program that reverses the order of the bits in an unsigned int value.   *
+*       The program should input the value from the user and call function reverse_bits *
+*       to print the bits in reverse order. Print the value in bits both before and     *
+*       after the bits are reversede to confirm that the bits are reversed properly.    *
+*                                                                                       *
+****************************************************************************************/
+
+#include <stdio.h>
+
+void display_bits( unsigned int value );  //function prototype
+void reverse_bits( unsigned int value );  //function prototype
+
+int main( void )
+{
+        unsigned int num1;  //variable to hold user input
+
+        printf( "%s", "Enter any non-negative number: " );  // prompt user for input
+        scanf( "%u", &num1 );   // store input
+        puts( "\n" );
+
+        display_bits( num1 );
+
+        reverse_bits( num1 );
+        puts( "\n" );
+}
+
+void display_bits( unsigned int value )
+{
+        unsigned int i;  //counter
+
+        // define mask and left shift 31 bits
+        unsigned int mask = 1 << 31;
+
+        printf( "%12u = ", value );
+
+        // loop through bits
+        for ( i = 1; i <= 32; ++i ) {
+                putchar( value & mask ? '1' : '0' );
+                value <<= 1;
+
+                if ( i % 8 == 0 ) {
+                        putchar( ' ' );
+                }
+        }
+        putchar( '\n' );
+}
+
+void reverse_bits( unsigned int value )
+{
+        unsigned int i;  //counter
+
+        //define mask and left shift 31 bits
+        unsigned int mask = 1 << 31;
+
+        printf( "%s", "Reverse bits = " );
+
+        //loop through bits
+        for ( i = 1; i <= 32; ++i ) {
+                if ( ( value & mask ) == mask ) {
+                       putchar( '0' );
+                }
+                else {
+                        putchar( '1' );
+                }
+                value <<= 1;
+                if ( i % 8 == 0 ) {
+                        putchar( ' ' );
+                }
+        }
+        putchar( '\n' );
+}

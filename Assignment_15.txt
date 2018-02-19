@@ -1,0 +1,124 @@
+/************************************************************************************************
+* File: asgn15.c                                                                                *
+* Course: CISP 360 Folsom Lake College Fall 2014                                                *
+* Author: Steven Villano                                                                        *
+* Date: 25/11/14                                                                                *
+*                                                                                               *
+* Assignment Description:                                                                       *
+*       Write a program that sorts an array of integers into ascending or descending order.     *
+*       Use command-line arguments to pass either argument -a for ascending order or -d for     *
+*       descending order.                                                                       *
+*                                                                                               *
+* Modifications:                                                                                *
+*       Your program should populate an array with 20 random numbers in the range of 0 through  *
+*       1000.                                                                                   *
+*                                                                                               *
+************************************************************************************************/
+
+
+#include <stdio.h>      // include standard i/o library
+#include <time.h>       // include time library to seed rand()
+#define SIZE 20         // define array size as 20 elements
+
+
+int main( int argc, char *argv[] )      //begin function main
+{
+        int nums[ SIZE ];       // declaration of array nums
+        int pass;       // counter for number of passes through array
+        size_t i;       // counter for array elements
+        int hold;       // temp variable to hold values when sorting
+
+
+        if ( argc != 2 ) {  // if no command-line arguments entered, inform user
+                puts( "Usage: asgn15 -a for ascending order or -d for descending order" );
+        } // end if
+        else {  // if -a command-line argument entered
+                if ( strcmp( argv[ 1 ], "-a" ) == 0 ) {
+
+                        // initialize array nums values to 0
+                        for ( i = 0; i <= SIZE; ++i ) {
+                                nums[ i ] = 0;
+                        }
+
+                        srand( time( NULL ) );  // seed random number generator
+
+                        // populate array nums with random values
+                        for ( i = 0; i <= SIZE; ++i ) {
+                                nums[ i ] = rand() % 1000;
+                        }
+
+                        // sort array values in ascending order
+                        for ( pass = 1; pass < SIZE; ++pass ) {  // loop to control number of passes
+
+                                for ( i = 0; i < SIZE - 1; ++i ) {  // loop to control number of comparisons per pass
+
+                                        // compare adjacent elements and swap them if first
+                                        // element is greater than second element
+                                        if ( nums[ i ] > nums[ i + 1 ] ) {
+                                                hold = nums[ i ];
+                                                nums[ i ] = nums[ i + 1];
+                                                nums[ i + 1 ] = hold;
+                                        }  // end if
+                                }  // end inner for
+                        }  // end outer for
+
+
+                        puts( "\n\n" );
+
+                        // print headers for list
+                        puts( "Array values in ascending order\n" );
+                        printf( "%s%10s\n", "Element", "Value" );
+
+                        // output sorted array values
+                        for ( i = 0; i < SIZE; ++i ) {
+                                printf( "%3d%13d\n", i, nums[ i ] );
+                        } // end for
+
+                        puts( "\n" );
+                }  // end if
+
+                // if -d command-line argument entered
+                else if ( strcmp( argv[ 1 ], "-d" ) == 0 ) {
+
+                        // initialize array nums values to 0
+                        for ( i = 0; i <= SIZE; ++i ) {
+                                nums[ i ] = 0;
+                        }
+
+                        srand( time( NULL ) );  // seed random number generator
+
+                        // populate array nums with random values
+                        for ( i = 0; i <= SIZE; ++i ) {
+                                nums[ i ] = rand() % 1000;
+                        }
+
+                        // sort array in descending order
+                        for ( pass = 1; pass < SIZE; ++pass ) {  // loop to control number of passes
+
+                                for ( i = 0; i < SIZE - 1; ++i ) { // loop to control number of comparisons per pass
+
+                                        // compare adjacent elements and swap them if first
+                                        // element is less than second element
+                                        if ( nums[ i ] < nums[ i + 1 ] ) {
+                                                hold = nums[ i ];
+                                                nums[ i ] = nums[ i + 1];
+                                                nums[ i + 1 ] = hold;
+                                        }  // end if
+                                }  // end inner for
+                        }  // end outer for
+
+                        puts( "\n\n" );
+
+                        // print headers for list
+                        puts( "Array values in descending order\n" );
+                        printf( "%s%10s\n", "Element", "Value" );
+
+                        // output sorted array values
+                        for ( i = 0; i < SIZE; ++i ) {
+                                printf( "%3d%13d\n", i, nums[ i ] );
+                        } // end for
+
+                        puts( "\n" );
+                }  // end else if
+        }  // end else
+}  // end main

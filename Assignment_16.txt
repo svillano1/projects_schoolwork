@@ -1,0 +1,151 @@
+/********************************************************************************************************
+* File: asgn16.cpp                                                                                      *
+* Course: CISP 360 Folsom Lake College Fall 2014                                                        *
+* Author: Steven Villano                                                                                *
+* Date: 06/12/14                                                                                        *
+*                                                                                                       *
+* Assignment Description:                                                                               *
+*       Create a class called Employee that includes three pieces of information as data members - a    *
+*       first name (type string), a last name (type string), and a monthly salary (type int). Your      *
+*       class should have a constructor that initializes the three data members. Provide a set and      *
+*       and a get function for each data member. If the monthly salary is not positive, set it to 0.    *
+*       Write a test program that demonstrates class Employee's capabilities. Create two Employee       *
+*       objects and display each objects yearly salary. Then give each Employee a 10 percent raise and  *
+*       display each Employee's yearly salary again.                                                    *
+*                                                                                                       *
+* Modifications:                                                                                        *
+*       Prompt the user to enter the necessary information to create two employee objects.              *
+*                                                                                                       *
+********************************************************************************************************/
+
+
+#include <iostream>     // standard i/o c++ library
+#include <string>       // string library
+
+using namespace std;    // declaration of namespace to reduce typing
+
+class Employee  // begin class definition
+{
+public:
+        // constructor to initialize class members
+        Employee( string fname, string lname, int value )
+        {
+                setFname( fname );
+                setLname( lname );
+                setSalary( value );
+        }
+
+        // function to set first name of employee
+        void setFname( string fname )
+        {
+                firstName = fname;
+        }
+
+        // function to set last name of employee
+        void setLname( string lname )
+        {
+                lastName = lname;
+        }
+
+        // function to set salary
+        void setSalary( int value )
+        {
+                salary = value;
+        }
+
+        // function to return employee first name
+        string getFname()
+        {
+                return firstName;
+        }
+
+        // function to return employee last name
+        string getLname()
+        {
+                return lastName;
+        }
+
+        // function to return salary
+        int getSalary()
+        {
+                return salary;
+        }
+
+        // function to raise salary 10%
+        int raiseSalary()
+        {
+                salary = ( salary + ( salary / 10 ));
+        }
+
+private:
+
+        string firstName;       // first name of employee
+        string lastName;        // last name of employee
+        int salary;             // employee salary
+
+}; // end class Employee
+
+
+
+int main()  // begin function main
+{
+
+        string name1;   // variable to hold first name
+        string name2;   // variable to hold last name
+        int pay = 0;            // variable to hold salary
+
+        Employee employee1( name1, name2, pay );        // create object employee1
+        Employee employee2( name1, name2, pay );        // create object employee2
+
+
+        system( "clear" );      // clear the screen
+
+        cout << endl;
+        cout << endl;
+        cout << "Please enter employee's first name:" << endl;  // prompt user for first name input
+        cin >> name1;   // read input into name1
+        cout << "Please enter employee's last name:" << endl;   // prompt user for last name input
+        cin >> name2;   // read input into name2
+        cout << "Please enter employee's monthly salary:" << endl;      // prompt user for salary input
+        cin >> pay;     // read input into pay
+
+        // if salary is less than 0, then set salary to 0
+        if ( pay < 0 ) {
+                pay = 0;
+        } // end if
+
+
+        employee1.setFname( name1 );    // set employee first name using class method, and pass variable name1
+        employee1.setLname( name2 );    // set employee last name using class method, and pass variable name2
+        employee1.setSalary( pay );     // set employee salary using class method, and pass variable pay
+
+        cout << "Please enter employee's first name:" << endl; // prompt user for employee2 first name input
+        cin >> name1;   // read first name into name1
+        cout << "Please enter employee's last name:" << endl;   // prompt user for employee2 last name input
+        cin >> name2;   // read last name into name2
+        cout << "Please enter employee's monthly salary:" << endl;      // prompt user for employee2 salary input
+        cin >> pay;     // read salary input into pay
+
+        employee2.setFname( name1 );    // set employee2 first name using class method, and pass variable name1
+        employee2.setLname( name2 );    // set employee2 last name using class method, and pass variable name2
+        employee2.setSalary( pay );     // set employee2 salary using class method, and pass variable pay
+
+
+        cout << endl;
+        cout << "Current Employees and Salary:" << endl;        // print header
+        cout << endl;
+
+        cout << employee1.getLname() << ", " << employee1.getFname() << "\t\t" << ( employee1.getSalary() * 12 ) << endl;       // print all info for employee1 object
+        cout << employee2.getLname() << ", " << employee2.getFname() << "\t\t" << ( employee2.getSalary() * 12 ) << endl;       // print all info for employee2 object
+
+        employee1.raiseSalary();        // give employee1 10% raise
+        employee2.raiseSalary();        // give employee2 10% raise
+
+        cout << endl;
+        cout << "Current Employees and Salary after 10% raise:" << endl;        // print header
+        cout << endl;
+
+        cout << employee1.getLname() << ", " << employee1.getFname() << "\t\t" << ( employee1.getSalary() * 12 ) << endl;       // print all info for employee1 object after raise
+        cout << employee2.getLname() << ", " << employee2.getFname() << "\t\t" << ( employee2.getSalary() * 12 ) << endl;       // print all info for employee2 object after raise
+        cout << endl;
+} // end function main

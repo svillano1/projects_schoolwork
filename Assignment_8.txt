@@ -1,0 +1,248 @@
+/************************************************************************************************
+* File: asgn8.c                                                                                 *
+* Course: CISP360 Folsom Lake College Fall 2014                                                 *
+* Author: Steven Villano                                                                        *
+* Date: 19/10/14                                                                                *
+*                                                                                               *
+* Assignment Description:                                                                       *
+*       1. Use Function pointers to create a menu-driven system. Prompt the user to select one  *
+*               of the following options:                                                       *
+*                                                                                               *
+*               Simulate the roll of two dice                                                   *
+*               The Fibonacci Series                                                            *
+*               Reverse Digits                                                                  *
+*               Print four patterns                                                             *
+*               Exit                                                                            *
+*                                                                                               *
+*       When the user selects an option, clear the screen, execute the appropriate code, make   *
+*       sure the user can see the result ("press Enter to continue ..."), and display the menu  *
+*       to a fresh screen. Allow the user to exit the menu only when the select the Exit option *
+************************************************************************************************/
+
+#include <stdio.h>              // standard input/output library
+#include <stdlib.h>             // c standard library
+#include <time.h>               // time library
+
+//function prototypes
+void four_triangles();
+void reverse_int();
+void fibonacci_series();
+void dice_roll();
+long long unsigned int fibonacci( unsigned int n );
+int reverse( int number );
+
+int main( void )                // function main begins program
+{
+        void (*f[ 4 ])() = { four_triangles, reverse_int, fibonacci_series, dice_roll };        // initialize array of 4 pointers to functions
+
+        size_t choice;          // variable to hold user's choice
+        system( "clear" );      // clear the screen
+
+        // menu
+        puts( "Which program do you wish to run?\n" );
+        puts( "0 - Print four patterns\r" );
+        puts( "1 - Reverse the digits\r" );
+        puts( "2 - The Fibonacci Series\r" );
+        puts( "3 - Simulate the roll of two dice\r" );
+        puts( "4 - Exit\n" );
+        printf( "%s", "Enter the number of your selection: " );         // prompt user for input
+        scanf( "%u", &choice );         // store input in var choice
+
+
+        while ( choice >= 0 && choice < 4 ) {           // process user's choice
+                system( "clear" );                      // clear the screen
+                (*f[ choice ])();               // invoke function at location choice in array f
+
+                // pause for user to press enter, and reprint menu to new screen
+                puts( "\n" );
+                getchar();
+                printf( "Press ENTER to Continue....\n" );
+                getchar();
+                system( "clear" );
+
+                // loop menu
+                puts( "\n\n" );
+                puts( "Which program do you wish to run?\n" );
+                puts( "0 - Print four patterns\r" );
+                puts( "1 - Reverse the digits\r" );
+                puts( "2 - The Fibonacci Series\r" );
+                puts( "3 - Simulate the roll of two dice\r" );
+                puts( "4 - Exit\n" );
+                printf( "%s", "Enter the number of your selection: " );
+                scanf( "%u", &choice );
+        }
+
+        puts( "Program exited.\n\n" );         // print when exit value is input
+}
+
+void four_triangles()
+{
+        int x, y, i, s;                                         // declaration of variables
+
+        printf ( "Enter a number between 1-20: ");              // prompt for input
+        scanf ( "%d", &y );                                     // read input from user
+        printf ( "Enter the symbol you'd like to print: ");     // prompt for input
+        scanf ( "%s", s );                                      // read input from user
+
+        if ( y >= 1 && y <= 20) {                               // test user input valid
+                printf ( "\n" );                                // print newline space
+                printf ( "(A)" );                               // print part (A) label
+                printf ( "\n\n" );                              // print newline spaces
+                for ( i = 0; i < y; i++ ) {                     // set conditions for loop
+                        for ( x = 0; x <= y; x++ ) {            // set conditions for inner loop
+                                if ( x <= i ) {                 // if conditions met, print user assigned symbol
+                                        printf ( "%s", s );     // output
+                                }                               // end if
+                                else {                          // else print space
+                                        printf ( " " );         // output
+                                }                               // end else
+                        }                                       // end inner for loop
+                        printf ( "\n");                         // print newline
+                }                                               // end outer for loop
+                printf ( "\n");                                 // print newline
+                printf ( "(B)" );                               // print part (B) label
+                printf ( "\n\n" );                              // print newline spaces
+                for ( i = (y-1); i >= 0; --i) {                 // set conditions for loop
+                        for ( x = 0; x <= y; x++ ) {            // set conditions for inner loop
+                                if ( x <= i ) {                 // if conditions met, print user assigned symbol
+                                        printf ( "%s", s );     // output
+                                }                               // end if
+                                else {                          // else print space
+                                        printf ( " " );         // output
+                                }                               // end else
+                        }                                       // end inner for loop
+                        printf ( "\n" );                        // print newline
+                }                                               // end outer loop
+                printf ( "\n" );                                // print newline
+                printf ( "(C)" );                               // print part (C) label
+                printf ( "\n\n" );                              // print newline spaces
+                for ( i = 0; i < y; i++ ) {                     // set conditions for loop
+                        for ( x = 0; x <= y; ++x ) {            // set conditions for inner loop
+                                if ( x <= i ) {                 // if conditions met, print space
+                                        printf ( " " );         // output
+                                }                               // end if
+                                else {                          // else print user assigned symbol
+                                        printf ( "%s", s );     // output
+                                }                               // end else
+                        }                                       // end inner loop
+                        printf ( "\n" );                        // print newline
+                }                                               // end outer loop
+                printf ( "\n" );                                // print newline
+                printf ( "(D)" );                               // print part (D) label
+                printf ( "\n\n" );                              // print newline spaces
+                for ( i = (y-1); i >= 0; --i ) {                // set conditions for loop
+                        for ( x = 0; x <= y; ++x ) {            // set conditions for inner loop
+                                if ( x <= i ) {                 // if conditions met, then print space
+                                        printf ( " " );         // output
+                                }                               // end if
+                                else {                          // else print user assigned symbol
+                                        printf ( "%s", s );     // output
+                                }                               // end else
+                        }                                       // end inner for loop
+                        printf ( "\n" );                        // print newline
+                }                                               // end outer for loop
+        }                                                       // end outer if
+        else                                                    // else print user input error
+        printf ( "The number must be between 1 - 20!\n");       // output
+}
+
+void reverse_int()
+{
+        int num1;               //declaration of variable num1
+        int result;             //declaration of variable result
+
+        printf ( "%s", "Enter an integer between 1 and 10,000: ");      //prompt user for input
+        scanf ( "%d", &num1 );                                          //read input
+
+        if ( num1 >= 1 && num1 <= 10000 ) {                             //test input for valid condition
+                result = reverse( num1 );                               //pass variable num1 to function reverse
+                printf ( "Reverse integer is: %d\n", result );          //print result of function
+        }
+        else {                                                          //if input invalid
+                printf ( "Integer must be between 1 and 10,000!\n" );   //print reason for invalid input
+        }
+}
+
+void fibonacci_series()
+{
+        long long unsigned int result;          //fibonacci value
+        unsigned int number;                    //number input by user
+        long long unsigned int num3 = 0;        //num3 for largest fibonacci number
+        long long unsigned int num4 = 1;        //num4 for largest fibonacci number
+        long long unsigned int sum2 = 0;        //sum2 for largest fibonacci number
+
+        //obtain input from user
+        printf ( "%s", "Which Fibonacci number do you want? " );
+        scanf ( "%u", &number );
+
+        //calculate fibonacci value for number input by user
+        result = fibonacci( number - 1 );
+
+        //calculate largest Fibonacci number for system
+        while ( num3 <= num4 ) {
+                sum2 = num3 + num4;
+                num3 = num4;
+                num4 = sum2;
+        }
+
+        //display result
+        printf ( "The %uth Fibonacci number is %llu\n", number, result );
+        printf ( "The largest Fibonacci number that can be calculated on this system is %llu\n", sum2 );
+}
+
+void dice_roll()
+{
+ // declaration of variables
+        size_t die1;  // random die value 1 - 6
+        size_t die2;  // random die value 1 - 6
+        unsigned int roll;  // roll counter
+        unsigned int frequency[ 13 ] = { 0 };  // clear counts
+        size_t sum;  // sum of die1, die2
+
+        // seed random number generator
+        srand ( time( NULL ) );
+
+        // roll dice and add increment lvalue in array
+        for ( roll = 1; roll <= 36000; ++roll ) {
+                die1 = 1 + rand() % 6;
+                die2 = 1 + rand() % 6;
+                sum = die1 + die2;
+                ++frequency[ sum ];
+        }
+
+        // print in tabular form
+        printf ( "%s%17s\n", "Sum", "Frequency" );
+
+        // print results
+        for ( sum = 2; sum < 13; ++sum ) {
+                printf ( "%2d%15d\n", sum, frequency[ sum ] );
+        }
+}
+
+//Iterative definition of function fibonacci
+unsigned long long int fibonacci( unsigned int n )
+{
+        unsigned int num1 = 0;
+        unsigned int num2 = 1;
+        unsigned long long int sum = 0;
+        int i;
+
+        for ( i = 1 ; i < n ; i++ ) {
+                sum = num1 + num2;
+                num1 = num2;
+                num2 = sum;
+        }
+        return sum;
+
+} //end function fibonacci
+
+int reverse( int number )       //begin function reverse
+{
+        int rev_num = 0;        //declaration and initialization of variable rev_num
+
+        while ( number > 0 ) {          //begin while loop with condition
+                rev_num = ( rev_num * 10 ) + ( number % 10);    //calculation of rev_num
+                number = ( number / 10 );
+        }
+        return rev_num;                 //return result
+}

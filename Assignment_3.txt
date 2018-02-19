@@ -1,0 +1,56 @@
+/********************************************************
+* File: asgn3.c                                         *
+* Course: CISP 360 Folsom Lake College Fall 2014        *
+* Author: Steven Villano                                *
+* Date: 14/09/2014                                      *
+*                                                       *
+* Assignment Description:                               *
+*       Print a solid square of asterisks using while   *
+*       loops, and print an outline square of asterisks *
+*       using while loops; combine both into one        *
+*       program per instructors directions.             *
+********************************************************/
+
+#include <stdio.h>      //standard input/output library
+
+int main ( void )       //start main function
+{
+
+        int x, y, i;    //declaration of variables
+
+        printf ( "Enter the length of a side of a square from 1 - 20: ");       //prompt user for input
+        scanf ( "%d", &y );                                                     //read input
+
+        if ( y >= 1 && y <= 20 ) {                                              //limit input from 1 - 20
+                i = 0;                                                          //set counter = 0
+                while ( i < y ) {                                               //condition for initial loop
+                        x = 0;                                                  //set x = 0
+                        i++;                                                    //increment counter
+                        while ( x < y ) {                                       //set condition for nested loop
+                                printf ( "%s", "*" );                           //output asterisks
+                                ++x;                                            //increment x
+                        }                                                       //end nested while
+                        printf ( "\n" );                                        //print newline for output
+                }                                                               //end outer while loop
+                printf ( "\n\n" );                                              //print two line breaks
+                i = 0;                                                          //reset counter to 0
+                while ( i < y ) {                                               //begin second loop
+                        x = 0;                                                  //reset x to 0
+                        i++;                                                    //increment counter
+                        while ( x <= y ) {                                      //set condition for second loop
+                                if ((( x > 1 ) && ( x < y )) && (( i > 1 ) && ( i < y ))) {     //conditons to print spaces
+                                        printf ( " " );                         //print spaces
+                                }                                               //end if
+                                else if (( x != 0 ) && ( i != 0 )) {            //set condtions to print asterisks
+                                        printf ( "*" );                         //print asterisks
+                                }                                               //end else if
+                                ++x;                                            //increment x
+                        }                                                       //end nested while loop
+                        printf ( "\n" );                                        //print newline for output
+                }                                                               //end outer while statement
+        }                                                                       //end if statement
+        else
+        printf ( "The number must be between 1 - 20!\n" );                      //if initial conditions not met then inform user
+
+return 0;                                                                       //verify the program executed successfully
+}                                                                               //end main

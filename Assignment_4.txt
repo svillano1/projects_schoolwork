@@ -1,0 +1,90 @@
+/********************************************************
+* File: asgn4.c                                         *
+* Course: CISP 360 Folsom Lake College Fall 2014        *
+* Author: Steven Villano                                *
+* Date: 17/09/2014                                      *
+*                                                       *
+* Assignment Description:                               *
+* Print out 4 triangles of different shapes using for   *
+* loops; using number and symbol input by user          *
+* Instructor added directions of printing each          *
+* triangle, one after the other, with labels for each   *
+* part of the exercise                                  *
+********************************************************/
+
+
+#include <stdio.h>
+
+int main ( void )
+{
+
+        int x, y, i, s;                                         // declaration of variables
+
+        printf ( "Enter a number between 1-20: ");              // prompt for input
+        scanf ( "%d", &y );                                     // read input from user
+        printf ( "Enter the symbol you'd like to print: ");     // prompt for input
+        scanf ( "%s", s );                                      // read input from user
+
+        if ( y >= 1 && y <= 20) {                               // test user input valid
+                printf ( "\n" );                                // print newline space
+                printf ( "(A)" );                               // print part (A) label
+                printf ( "\n\n" );                              // print newline spaces
+                for ( i = 0; i < y; i++ ) {                     // set conditions for loop
+                        for ( x = 0; x <= y; x++ ) {            // set conditions for inner loop
+                                if ( x <= i ) {                 // if conditions met, print user assigned symbol
+                                        printf ( "%s", s );     // output
+                                }                               // end if
+                                else {                          // else print space
+                                        printf ( " " );         // output
+                                }                               // end else
+                        }                                       // end inner for loop
+                        printf ( "\n");                         // print newline
+                }                                               // end outer for loop
+                printf ( "\n");                                 // print newline
+                printf ( "(B)" );                               // print part (B) label
+                printf ( "\n\n" );                              // print newline spaces
+                for ( i = (y-1); i >= 0; --i) {                 // set conditions for loop
+                        for ( x = 0; x <= y; x++ ) {            // set conditions for inner loop
+                                if ( x <= i ) {                 // if conditions met, print user assigned symbol
+                                        printf ( "%s", s );     // output
+                                }                               // end if
+                                else {                          // else print space
+                                        printf ( " " );         // output
+                                }                               // end else
+                        }                                       // end inner for loop
+                        printf ( "\n" );                        // print newline
+                }                                               // end outer loop
+                printf ( "\n" );                                // print newline
+                printf ( "(C)" );                               // print part (C) label
+                printf ( "\n\n" );                              // print newline spaces
+                for ( i = 0; i < y; i++ ) {                     // set conditions for loop
+                        for ( x = 0; x <= y; ++x ) {            // set conditions for inner loop
+                                if ( x <= i ) {                 // if conditions met, print space
+                                        printf ( " " );         // output
+                                }                               // end if
+                                else {                          // else print user assigned symbol
+                                        printf ( "%s", s );     // output
+                                }                               // end else
+                        }                                       // end inner loop
+                        printf ( "\n" );                        // print newline
+                }                                               // end outer loop
+                printf ( "\n" );                                // print newline
+                printf ( "(D)" );                               // print part (D) label
+                printf ( "\n\n" );                              // print newline spaces
+                for ( i = (y-1); i >= 0; --i ) {                // set conditions for loop
+                        for ( x = 0; x <= y; ++x ) {            // set conditions for inner loop
+                                if ( x <= i ) {                 // if conditions met, then print space
+                                        printf ( " " );         // output
+                                }                               // end if
+                                else {                          // else print user assigned symbol
+                                        printf ( "%s", s );     // output
+                                }                               // end else
+                        }                                       // end inner for loop
+                        printf ( "\n" );                        // print newline
+                }                                               // end outer for loop
+        }                                                       // end outer if
+        else                                                    // else print user input error
+        printf ( "The number must be between 1 - 20!\n");       // output
+
+return 0;                                                       // return program completed successfully
+}                                                               // end function main

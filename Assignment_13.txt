@@ -1,0 +1,254 @@
+/********************************************************************************
+* File: asgn13.c                                                                *
+* Course: CISP 360 Folsom Lake College Fall 2014                                *
+* Author: Steven Villano                                                        *
+* Date: 23/11/14                                                                *
+*                                                                               *
+* Assignment Description:                                                       *
+*       1 - Write a program that will allow a user to add, delete, and search   *
+*       for items in a linked list. For this assignment, consider using the     *
+*       datatype char, however you may use any type you wish. Be sure to        *
+*       instruct the user of the datatype, and consider even the range of       *
+*       values you expect them to enter.                                        *
+*                                                                               *
+*       Present the user with the following options:                            *
+*                                                                               *
+*       -------------------------------------------                             *
+*       1 - add to the end of the list                                          *
+*       2 - add to the beginning of the list                                    *
+*       3 - delete an entry                                                     *
+*       4 - display the list                                                    *
+*       5 - exit                                                                *
+*                                                                               *
+*       Enter choice:                                                           *
+*       -------------------------------------------                             *
+*                                                                               *
+*       2 - Choices 1 and 2 are self-explanatory.                               *
+*                                                                               *
+*       For option 3, prompt the user for a value to delete and advise the user *
+*       whether the item was successfully deleted or not found.                 *
+*                                                                               *
+*       For option 4, display the contents of the list separated by one space   *
+*                                                                               *
+*       Ensure the user can only exit the program by choosing option 5.         *
+*                                                                               *
+********************************************************************************/
+
+
+#include <stdio.h>      // include standard i/o library
+#include <stdlib.h>     // include standard c library
+
+// self-referential structure
+struct char_node {
+        char data;
+        struct char_node *next_ptr;
+};
+
+// synonyms for struct char_node and Char_node
+typedef struct char_node Char_node;
+typedef Char_node *Char_node_ptr;
+
+// prototype functions
+void instructions( void );
+void insert_end( Char_node_ptr *s_ptr, char value );
+void insert_begin( Char_node_ptr *s_ptr, char value );
+char delete( Char_node_ptr *s_ptr, char value );
+void print_list( Char_node_ptr current_ptr );
+int is_empty( Char_node_ptr s_ptr );
+
+int main( void )
+{
+        Char_node_ptr start_ptr = NULL;         // initially no nodes present
+        unsigned int choice;            // variable for user's choice
+        char item;              // char entered by user
+
+        system( "clear" );      // clear the screen
+        puts( "\n\n" );
+
+        instructions();         // display the menu
+        printf( "%s", "> " );
+        scanf( "%u", &choice );
+
+        // loop while user does not choose 5
+        while ( choice != 5 ) {
+
+                switch ( choice ) {     // switch based on menu choice
+                        case 1:
+                                printf( "%s", "Enter a character between a - z: " );
+                                scanf( "\n%c", &item );
+                                insert_end( &start_ptr, item );         // insert item in the list
+                                break;
+                        case 2:
+                                printf( "%s", "Enter a character between a - z: " );
+                                scanf( "\n%c", &item );
+                                insert_begin( &start_ptr, item );       // insert item in the list
+                                break;
+                        case 3:
+                                if ( !is_empty( start_ptr ) ) {         // delete an element
+                                        printf( "%s", "Enter character to be deleted: " );
+                                        scanf( "\n%c", &item );
+
+                                        // if char is found, then remove it
+                                        if ( delete( &start_ptr, item ) ) {     // remove char
+                                                printf( "%c deleted.\n", item );
+                                        }
+                                        else {  // if char not found, inform user
+                                                printf( "%c not found.\n\n", item );
+                                        }
+                                }
+                                else {
+                                        puts( "List is empty.\n" );
+                                }
+                                break;
+                        case 4:
+                                print_list( start_ptr );
+                                break;
+                        default:        // option for invalid choice
+                                puts( "Invalid choice.\n" );
+                                instructions();
+                                break;
+                }       // end switch
+
+                printf( "%s", "> " );
+                scanf( "%u", &choice );
+        }       // end while
+        puts( "End of run\n" );
+}       // end main
+
+// display program instructions to the user
+void instructions( void )
+{
+        puts( "Enter your selection:\n"
+        "----------------------------------------------------\n"
+        "   1 - Add an entry to the end of the list\n"
+        "   2 - Add an entry to the beginning of the list\n"
+        "   3 - Delete an entry from the list\n"
+        "   4 - Display the contents of the list\n"
+        "   5 - Exit\n"
+        "----------------------------------------------------" );
+}
+
+// insert a new value into the end of the list
+void insert_end( Char_node_ptr *s_ptr, char value )
+{
+        Char_node_ptr new_ptr;  // pointer to new node
+        Char_node_ptr previous_ptr;     // pointer to previous node in list
+        Char_node_ptr current_ptr;      // pointer to current node in list
+
+        new_ptr = malloc( sizeof( Char_node ) );        // create node
+
+        if ( new_ptr != NULL ) {        // if space in memory is available
+                new_ptr->data = value;  // place value in node
+                new_ptr->next_ptr = NULL;       // node does not link to another node
+
+                previous_ptr = NULL;
+                current_ptr = *s_ptr;
+
+                // loop to find end of list
+                while ( current_ptr != NULL ) {
+                        previous_ptr = current_ptr;     // move to...
+                        current_ptr = current_ptr->next_ptr;    // ...next pointer
+                }  // end while
+
+                // if list is empty, then add node at beginning of list
+                if ( previous_ptr == NULL ) {
+                        new_ptr->next_ptr = *s_ptr;
+                        *s_ptr = new_ptr;
+                }  // end if
+                else {  // otherwise insert node at end of list
+                        previous_ptr->next_ptr = new_ptr;
+                        new_ptr->next_ptr = current_ptr;
+                }  // end else
+        }  // end if
+        else {
+                printf( "%c not inserted. No memory available.\n", value );
+        }  // end else
+
+}  // end function insert_end
+
+// insert a new value into the beginning of the list
+void insert_begin( Char_node_ptr *s_ptr, char value )
+{
+        Char_node_ptr new_ptr;  // pointer to new node
+        Char_node_ptr previous_ptr;     // pointer to previous node in list
+        Char_node_ptr current_ptr;      // pointer to current node in list
+
+        new_ptr = malloc( sizeof( Char_node ) );        // create node
+
+        if ( new_ptr != NULL ) {        // if space in memory is available
+                new_ptr->data = value;  // place value in node
+                new_ptr->next_ptr = NULL;       // node does not link to another node
+
+                previous_ptr = NULL;
+                current_ptr = *s_ptr;
+
+                // add to beginning of list
+                if ( previous_ptr == NULL ) {
+                        new_ptr->next_ptr = *s_ptr;
+                        *s_ptr = new_ptr;
+                }  // end if
+        } // end if
+        else {
+                printf( "%c not inserted. No memory available.\n", value );
+        }  // end else
+}  // end function insert_end
+
+// delete an element from the list
+char delete( Char_node_ptr *s_ptr, char value )
+{
+        Char_node_ptr previous_ptr;     // pointer to previous node in list
+        Char_node_ptr current_ptr;      // pointer to current node in list
+        Char_node_ptr temp_ptr;         // temporary node pointer
+
+        // if value found in first node, then delete first node
+        if ( value == (*s_ptr )->data ) {
+                temp_ptr = *s_ptr;      // hold onto node being removed
+                *s_ptr = ( *s_ptr )->next_ptr;  // de-thread the node
+                free( temp_ptr );       // free the de-threaded node
+                return value;
+        }  // end if
+        else {
+                previous_ptr = *s_ptr;
+                current_ptr = ( *s_ptr )->next_ptr;
+
+                // loop to find the correct location in the list
+                while ( current_ptr != NULL && current_ptr->data != value ) {
+                        previous_ptr = current_ptr;  // move to...
+                        current_ptr = current_ptr->next_ptr;  //...next node
+                }  // end while
+
+                // delete node at current pointer
+                if ( current_ptr != NULL ) {
+                        temp_ptr = current_ptr;         // hold onto node being removed
+                        previous_ptr->next_ptr = current_ptr->next_ptr;         // de-thread the node
+                        free( temp_ptr );       // free de-threaded node
+                        return value;
+                }  // end if
+        } // end else
+        return '\0';
+} // end function delete
+
+// return 1 if the list is empty, 0 otherwise
+int is_empty( Char_node_ptr s_ptr )
+{
+        return s_ptr == NULL;
+}  // end function is_empty
+
+// print the list
+void print_list( Char_node_ptr current_ptr )
+{
+        // if the list is empty, inform user
+        if ( is_empty( current_ptr ) ) {
+                puts( "List is empty!\n" );
+        }  // end if
+        else {
+                puts( "The list is:" );
+
+                // while not at the end of the list
+                while ( current_ptr != NULL ) {
+                        printf( "%c ", current_ptr->data );
+                        current_ptr = current_ptr->next_ptr;
+                } // end while
+        puts( "\n" );
+        }  // end else
+}  // end function print_list

@@ -1,0 +1,53 @@
+/************************************************************************************************
+* File:         asgn10.c                                                                        *
+* Course:       CISP 360 Folsom Lake College Fall 2014                                          *
+* Author:       Steven Villano                                                                  *
+* Date:         2/11/14                                                                         *
+*                                                                                               *
+* Assignment Description:                                                                       *
+*       Write a program that loads a 10-element array with random integers from 1 to 1000.      *
+*       There is no input from the user. For each value, print the value, number of characters  *
+*       in that value, and a running total of the number of characters printed. Use the %n      *
+*       conversion specifier to determine the number of characters output for each value. Your  *
+*       program must generate a different set of values each time it is run. The output should  *
+*       have the following format:                                                              *
+*                                                                                               *
+*                                       Total                                                   *
+*               Value   Characters      Characters                                              *
+*               142     3               3                                                       *
+*               1000    4               7                                                       *
+*               963     3               10                                                      *
+*               6       1               11                                                      *
+*               etc.                                                                            *
+*                                                                                               *
+************************************************************************************************/
+
+
+
+#include <stdio.h>      // include std i/o library
+#include <time.h>       // include time library to seed rand()
+#define SIZE 10         // define array size
+
+int main( void )        // begin function main
+{
+
+        int arr_rand[ SIZE ];           // initialize array and use SIZE
+        size_t i;                       // counter
+        int row = 0;                    // variable to hold %n count for each line
+        int total = 0;                  // varible for running total of chars
+
+
+        srand( time( NULL ) );          // seed rand() generator
+
+        // print headings
+        printf( "%36s\n", "Total" );
+        printf( "%s%20s%16s\n", "Value", "Characters", "Characters" );
+
+        // assign random values to array, and print values, characters per row, and running total of characters
+        for ( i = 0; i < SIZE; ++i ) {
+                arr_rand[ i ] = 1 + rand() % 1000;
+                printf( "%d%n", arr_rand[ i ], &row );
+                total += row;
+                printf( "\t\t%d\t\t%d\n", row, total );
+        } // end for
+}       // end main

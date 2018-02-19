@@ -1,0 +1,86 @@
+/****************************************************************************************
+* File: asgn12.c                                                                        *
+* Course: CISP360 Folsom Lake College Fall 2014                                         *
+* Author: Steven Villano                                                                *
+* Date: 15/11/14                                                                        *
+*                                                                                       *
+* Assignment Description:                                                               *
+*       Write a C program that, given a seven-digit number, writes to a file every      *
+*       possible seven-letter word corresponding to that number. There are 2187         *
+*       (3 to the seventh power) such words. Avoid phone numbers with the digits 0 & 1. *
+*                                                                                       *
+* Modifications:                                                                        *
+*       When the user runs the program, prompt them for a phone number. If it is        *
+*       invalid, exit with an appropriate comment. Enter the entire phone number at one *
+*       time and parse each digit. Do not enter one digit at a time.                    *
+*                                                                                       *
+*       Create a text file with the name: asgn12.out                                    *
+****************************************************************************************/
+
+#include <stdio.h>      // include standard i/o library
+#include <string.h>     // include string handling library
+
+int main( void )        // begin function main
+{
+
+        // declare and initialize constant two-dimensional array of letters
+        const char letters[ 8 ][ 3 ] = { { 'A', 'B', 'C' }, { 'D', 'E', 'F' }, { 'G', 'H', 'I' }, { 'J', 'K', 'L' }, { 'M', 'N', 'O' }, { 'P', 'R', 'S' }, { 'T', 'U',
+'V' }, { 'W', 'X', 'Y' } };
+
+        char phone[ 7 ];        // declare char array for user input
+        int digits[ 7 ];        // declare int array for conversion of input and manipulation of digits
+
+        int c;  // declare variable for char input into array from user
+
+        // declare counters for loops
+        int i;
+        int j;
+        int k;
+        int l;
+        int m;
+        int n;
+        int o;
+
+
+        FILE *af_ptr;   // declare file pointer for text file asgn12.out
+
+
+        // open file for writing if already created, create file if needed
+        if ( ( af_ptr = fopen( "asgn12.out", "w" ) ) == NULL ) {        // if file cannot be opened, then exit program with message
+                puts( "File could not be opened" );
+        }
+        else{
+
+                printf( "Enter a 7-digit phone number (numbers only): " );      // prompt user for input
+                while ( i <= 7 && ( c = getchar() ) != '\n' ) {                 // add each number to the phone array
+                        phone[ i++ ] = c;
+                }
+                for ( i = 0; i < 7; ++i ) {
+                        digits[ i ] = phone[ i ] - '0';                         // transfer to digits array and subtract ASCII offset for correct values
+                        if ( digits[ i ] < 2 ) {                                // check for valid input, and if 0 or 1 entered, then exit with message
+                                printf( "Invalid number entered; 0 and 1 are not allowed!\n" );
+                                break;
+                        }       // end if
+                }       // end for
+
+                // loops for letter association with each digit
+                for ( i = 0; i <= 2; ++i ) {
+                        for ( j = 0; j <= 2; ++j ) {
+                                for ( k = 0; k <= 2; ++k ) {
+                                        for ( l = 0; l <= 2; ++l ) {
+                                                for ( m = 0; m <= 2; ++m ) {
+                                                        for ( n = 0; n <= 2; ++n ) {
+                                                                for ( o = 0; o <= 2; ++o ) {
+                                                                        fprintf( af_ptr, "%c%c%c%c%c%c%c\n", letters[ ( digits[ 0 ] - 2 ) ][ i ], letters[ ( digits[ 1 ] - 2 ) ][
+j ], letters[ ( digits[ 2 ] - 2 ) ][ k ], letters[ ( digits[ 3 ] - 2 ) ][ l ], letters[ ( digits[ 4 ] - 2 ) ][ m ], letters[ ( digits[ 5 ] - 2 ) ][ n ], letters[ ( digits[ 6
+] - 2 ) ][ o ] );       // print result to open file
+                                                                }
+                                                        }
+                                                }
+                                        }
+                                }
+                        }
+                }
+                fclose( af_ptr );       // close file asgn12.out
+        }       // end else
+}       // end function main

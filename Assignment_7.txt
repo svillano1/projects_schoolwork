@@ -1,0 +1,55 @@
+/********************************************************
+* File: asgn7.c                                         *
+* Course: CISP360 Folsom Lake College Fall 2014         *
+* Author: Steven Villano                                *
+* Date: 11/10/14                                        *
+*                                                       *
+* Assignment Description:                               *
+*       Write a program that simulates the rolling of   *
+*       two dice. The program should use 'rand' twice   *
+*       to roll the first die and second die            *
+*       respectively. The sum of the two values should  *
+*       then be calculated. Your program should roll the*
+*       two dice 36,000 times. Use a single-subscripted *
+*       array to tally the number of times each         *
+*       possible sum appears. Print the results in a    *
+*       tabular format. Also, determine if the totals   *
+*       are reasonable: i.e., there are six ways to roll*
+*       a 7, so approximately 1/6th of all rolls should *
+*       be 7.                                           *
+********************************************************/
+
+#include <stdio.h>      // standard input/output library
+#include <stdlib.h>     // standard library (rand() function)
+#include <time.h>       // time library
+#define SIZE 13
+
+// function main begins program
+int main ( void )
+{
+        // declaration of variables
+        size_t die1;  // random die value 1 - 6
+        size_t die2;  // random die value 1 - 6
+        unsigned int roll;  // roll counter
+        unsigned int frequency[ SIZE ] = { 0 };  // clear counts
+        size_t sum;  // sum of die1, die2
+
+        // seed random number generator
+        srand ( time( NULL ) );
+
+        // roll dice and add increment lvalue in array
+        for ( roll = 1; roll <= 36000; ++roll ) {
+                die1 = 1 + rand() % 6;
+                die2 = 1 + rand() % 6;
+                sum = die1 + die2;
+                ++frequency[ sum ];
+        }
+
+        // print in tabular form
+        printf ( "%s%17s\n", "Sum", "Frequency" );
+
+        // print results
+        for ( sum = 2; sum < SIZE; ++sum ) {
+                printf ( "%2d%15d\n", sum, frequency[ sum ] );
+        }
+}  // end function main

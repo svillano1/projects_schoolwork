@@ -1,0 +1,48 @@
+/* Steven Villano */
+/* Assignment #2 */
+/* Sum, Average, Product, Largest and Smallest of 3 variables */
+
+#include <stdio.h>
+
+int main ()
+{
+        int num1;                                       /* assign variable num1 int type */
+        int num2;                                       /* assign variable num2 int type */
+        int num3;                                       /* assign variable num3 int type */
+        int sum;                                        /* assign variable sum int type */
+        int avg;                                        /* assign vaiable avg int type */
+        int prod;                                       /* assign variable prod int type */
+
+        printf ("Enter three different integers: ");    /* prompt */
+        scanf ("%d %d %d", &num1, &num2, &num3);        /* read 3 integers */
+
+        sum = num1 + num2 + num3;                       /* declaration of sum */
+        printf ("Sum is %d\n", sum);                    /* print sum */
+
+        avg = (num1 + num2 + num3) / 3;                 /* declaration of avg */
+        printf ("Average is %d\n", avg);                /* print average */
+
+        prod = num1 * num2 * num3;                      /* declaration of prod */
+        printf ("Product is %d\n", prod);               /* print product */
+
+        if ( num1 > num2 && num2 < num3 ) {             /* test smallest condition 1 */
+                        printf("Smallest is %d\n", num2 );
+                }
+        if ( num2 > num1 && num1 < num3 ) {             /* test smallest condition 2 */
+                        printf("Smallest is %d\n", num1 );
+                }
+        if ( num1 > num3 && num3 < num2 ) {             /* test smallest condition 3 */
+                        printf("Smallest is %d\n", num3 );
+                }
+        if ( num1 < num2 && num2 > num3 ) {             /* test largest condition 1 */
+                        printf("Largest is %d\n" , num2 );
+                }
+        if ( num2 < num1 && num1 > num3 ) {             /* test largest condition 2 */
+                        printf("Largest is %d\n" , num1 );
+                }
+        if ( num1 < num3 && num3 > num2 ) {             /* test largest condition 3 */
+                        printf("Largest is %d\n" , num3 );
+                }
+
+        return 0;                                       /* verify program completed successfully */
+}
